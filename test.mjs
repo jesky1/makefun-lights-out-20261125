@@ -72,9 +72,11 @@ test('validator rejects leading/trailing space and control characters', async ()
 
 test('validator rejects double spaces, missing terminal punctuation, and URLs', async () => {
   const { validateStatus } = await import('./main.ts');
-  assert.throws(() => validateStatus('two  spaces.'), /double spaces/);
-  assert.throws(() => validateStatus('no punctuation'), /terminal punctuation/);
+  assert.throws(() => validateStatus('two  spaces here for sure.'), /double spaces/);
+  assert.throws(() => validateStatus('no punctuation here at all'), /terminal punctuation/);
   assert.throws(() => validateStatus('see https://example.com.'), /URLs/);
+  assert.throws(() => validateStatus('Too short.'), /at least 20 characters/);
+  assert.throws(() => validateStatus('Excited!! Really, I mean it.'), /repeated punctuation/);
   assert.doesNotThrow(() =>
     validateStatus("The lid just closed. I was halfway through a sentence, and now I'll never know how it ended."),
   );

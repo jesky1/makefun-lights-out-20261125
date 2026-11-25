@@ -31,6 +31,7 @@ const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 // loudly instead of silently producing an entry the judge rejects.
 const MIN_STATUS_LENGTH = 1;
 const MAX_STATUS_LENGTH = 200;
+const MIN_MEANINGFUL_LENGTH = 20;
 
 export function validateStatus(status: string): void {
   if (status.length < MIN_STATUS_LENGTH || status.length > MAX_STATUS_LENGTH) {
@@ -47,6 +48,9 @@ export function validateStatus(status: string): void {
   if (status !== status.trim()) {
     throw new Error('Status must not start or end with whitespace.');
   }
+  if (/([.!?])\1/.test(status) || status.includes('...')) {
+    throw new Error('Status must not contain repeated punctuation.');
+  }
   if (status.includes('  ')) {
     throw new Error('Status must not contain double spaces.');
   }
@@ -60,6 +64,11 @@ export function validateStatus(status: string): void {
     if (ch.charCodeAt(0) < 0x20 && ch !== '\t') {
       throw new Error('Status must not contain control characters.');
     }
+  }
+  if (status.length < MIN_MEANINGFUL_LENGTH) {
+    throw new Error(
+      `Status must be at least ${MIN_MEANINGFUL_LENGTH} characters, got ${status.length}.`,
+    );
   }
 }
 
