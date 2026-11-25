@@ -1,0 +1,1 @@
+{"description":"One Line, Lights Out — make.fun entry by @jesky","license":"MIT","main":"main.ts","name":"makefun-lights-out-20261125","scripts":{"start":"node main.ts","test":"node --test test.mjs"},"type":"module","version":"1.0.0"}
